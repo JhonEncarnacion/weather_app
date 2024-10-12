@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
+    </style>
+    <title>Weather App</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="Icons/weather.png">
+    <script src="script.js" defer></script>
+</head>
+
+<body>
+    <nav>
+        <section class="search_bar">
+            <img class="search_icon" src="Icons/search.svg" alt="Search Icon">
+            <input type="search" id="search_location" name="search_location" placeholder="Search for a city">
+        </section>
+
+        <ul class="location_history">
+            <li class="saved_location">
+                <div class="sl_city">Bronx, New York</div>
+                <div class="sl_time">2:37 PM</div>
+                <div class="sl_temperature">64&deg;</div>
+                <div class="sl_sky_condition">Partly Cloudy</div>
+                <div class="sl_high/low">High: 67&deg; Low: 59&deg;</div>
+            </li>
+        </ul>
+    </nav>
+
+    <main>
+        <section class="main_weather">
+            <div class="mw_city">Juneau</div>
+            <div class="mw_temperature">40&deg;</div>
+            <div class="mw_sky_condition">Rainy</div>
+            <div class="mw_feels_like"></div>
+            <div class="mw_high/low">High: 40&deg; Low: 34&deg;</div>
+        </section>
+
+        <section class="hourly_forecast">
+            <div class="hf_title">Hourly Forecast</div>
+
+            <div class="hf_details">
+                <div class="hf_title">Hourly Forecast</div>
+                <div class="hf_time">4 PM</div>
+                <div class="hf_symbol">☀️</div>
+                <div class="hf_temperature">40&deg;</div>
+                <div class="hf_precipitation">80&percnt;</div>
+            </div>
+        </section>
+        
+        <section class="weekly_forecast">
+            <div class="wf_title">Weekly Forecast</div>
+
+            <div class="wf_details">
+                <div class="wf_symbol">☀️</div>
+                <div class="wf_weather_info">
+                    <div class="wf_day">Today</div>
+                    <div class="wf_sky_condition">Partly Cloudy</div>
+                </div>
+                <div class="wf_precipitation_info">
+                    <div class="wf_precipitation_symbol">☀️</div>
+                    <div class="wf_precipitation_percentage">80&percnt;</div>
+                </div>
+                <div class="wf_high/low">
+                    <div class="wf_high">73&deg;</div>
+                    <div class="wf_low">55&deg;</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="weather_conditions">
+            <div class="wc_title">Weather Conditions</div>
+
+            <section class="air_quality_index">
+                <div class="aqi_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Air Quality Index Icon">
+                    Air Quality Index
+                </div>
+            
+                <div class="aqi_details">
+                    <div class="aq_number">32</div>
+                    <div class="aq_quality">Good</div>
+                </div>
+            </section>
+            
+            <section class="wind">
+                <div class="w_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Wind Icon">
+                    Wind
+                </div>
+
+                <div class="w_details">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Wind Icon">
+                    <div class="w_speed_number">6</div>
+                    <div class="w_speed_unit">mph</div>
+                    <div class="w_strength">Light</div>
+                </div>
+            </section>
+
+            <section class="humidity">
+                <div class="h_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Humidity Icon">
+                    Humidity
+                </div>
+
+                <div class="h_details">
+                    <div class="h_percentage">49&percnt;</div>
+                    <div class="h_strength">Dry</div>
+                </div>
+            </section>
+            
+            <section class="uv_index">
+                <div class="uv_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="UV Index Icon">
+                    UV Index
+                </div>
+                
+                <div class="uv_details">
+                    <div class="uv_number">7</div>
+                    <div class="uv_amount">High</div>
+                </div>
+            </section>
+
+            <section class="pressure">
+                <div class="p_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Pressure Icon">
+                    Pressure
+                </div>
+                
+                <div class="p_details">
+                    <div class="p_number">29.70</div>
+                    <div class="p_unit">inHg</div>
+                    <div class="p_strength">Moderate</div>
+                </div>
+            </section>
+
+            <section class="sunrise/sunset">
+                <div class="ss_title">
+                    <img class="weather_icons" src="Icons/sunny.svg" alt="Sunset Icon">
+                    Sunrise & Sunset
+                </div>
+
+                <div class="sunrise">
+                    <div class="sunrise_title">Sunrise</div>
+                    <div class="sunrise_time">7:02 AM</div>
+                </div>
+
+                <div class="sunset">
+                    <div class="sunset_title">Sunset</div>
+                    <div class="sunset_time">6:22 PM</div>
+                </div>
+            </section>
+        </section>
+    </main>
+</body>
+
+</html>
