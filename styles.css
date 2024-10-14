@@ -1,8 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
 
 :root {
-    --faded_gray: rgb(170, 170, 170);
-    --dark_faded_gray: rgb(140, 140, 140);
+    --very_light_transparent: rgba(255, 255, 255, 0.7);
+    --light_transparent: rgba(255, 255, 255, 0.4);
+    --darker_blue: rgb(0, 30, 60);
+    --dark_blue: rgb(0, 50, 100);
+    --blue: rgb(0, 90, 150);
+    --nav_font_size: 0.7rem;
 }
 
 * {
@@ -13,22 +17,36 @@
 
 body {
     display: flex;
+    width: 100vw;
+    height: 100vh;
     font-family: "Lato", sans-serif;
-    background-color: #90d5ff;
+    color: var(--very_light_transparent);
+    background-color: var(--dark_blue);
+    word-spacing: 0.1rem;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
     padding: 20px;
+    width: 350px;
+    background-color: var(--darker_blue);
 }
 
 .search_bar {
     display: flex;
     align-items: center;
-    gap: 5px;
-    background-color: rgba(255, 255, 255, 0.4);
+    gap: 10px;
     padding: 10px;
     border-radius: 30px;
+    background-color: var(--dark_blue);
+    width: 100%;
 }
 
 .search_icon {
-    color: var(--faded_gray);
+    color: var(--very_light_transparent);
 }
 
 #search_location {
@@ -36,9 +54,80 @@ body {
     outline: none;
     font-size: 20px;
     background-color: transparent;
-    color: var(--dark_faded_gray);
+    color: var(--very_light_transparent);
 }
 
 #search_location::placeholder {
-    color: var(--faded_gray);
+    color: var(--light_transparent);
+}
+
+.location_history {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+}
+
+.saved_location {
+    display: grid;
+    grid-template-columns: 6fr 10fr;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-areas: 
+        "top_left temp"
+        "cond high_low";
+    list-style-type: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    background-color: transparent;
+    background-color: var(--dark_blue);
+}
+
+.saved_location:first-child {
+    background-color: var(--blue);
+}
+
+.top_left {
+    grid-area: top_left;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.sl_city {
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 0.8em;
+    max-width: 180px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.sl_time {
+    font-size: var(--nav_font_size);
+}
+
+.sl_temperature {
+    grid-area: temp;
+    justify-self: flex-end;
+    font-size: 2.5rem;
+    font-weight: 300;
+    line-height: 0.75em;
+}
+
+.sl_sky_condition {
+    grid-area: cond;
+    align-self: flex-end;
+    font-size: var(--nav_font_size);
+}
+
+.sl_high_low {
+    grid-area: high_low;
+    align-self: flex-end;
+    justify-self: flex-end;
+    font-size: var(--nav_font_size);
+    display: flex;
+    gap: 5px;
 }
