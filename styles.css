@@ -6,7 +6,11 @@
     --darker_blue: rgb(0, 30, 60);
     --dark_blue: rgb(0, 50, 100);
     --blue: rgb(0, 90, 150);
-    --nav_font_size: 0.7rem;
+    --rounded_corners: 10px;
+    --normal_spacing: 15px;
+    --less_spacing: 10px;
+    --large_font_size: 1.5rem;
+    --small_font_size: 0.7rem;
 }
 
 * {
@@ -30,7 +34,7 @@ nav {
     flex-direction: column;
     align-items: center;
     gap: 15px;
-    padding: 15px;
+    padding: var(--normal_spacing);
     width: 350px;
     background-color: var(--darker_blue);
 }
@@ -39,7 +43,7 @@ nav {
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px;
+    padding: var(--normal_spacing);
     margin: 15px 0px;
     border-radius: 30px;
     background-color: var(--dark_blue);
@@ -78,10 +82,9 @@ nav {
         "top_left temp"
         "cond high_low";
     list-style-type: none;
-    border-radius: 10px;
-    padding: 10px;
+    border-radius: var(--normal_spacing);
+    padding: var(--normal_spacing);
     width: 100%;
-    background-color: transparent;
     background-color: var(--dark_blue);
 }
 
@@ -97,7 +100,7 @@ nav {
 }
 
 .sl_city {
-    font-size: 1.5rem;
+    font-size: var(--large_font_size);
     font-weight: bold;
     line-height: 0.8em;
     max-width: 180px;
@@ -107,7 +110,7 @@ nav {
 }
 
 .sl_time {
-    font-size: var(--nav_font_size);
+    font-size: var(--small_font_size);
 }
 
 .sl_temperature {
@@ -121,14 +124,147 @@ nav {
 .sl_sky_condition {
     grid-area: cond;
     align-self: flex-end;
-    font-size: var(--nav_font_size);
+    font-size: var(--small_font_size);
 }
 
 .sl_high_low {
     grid-area: high_low;
     align-self: flex-end;
     justify-self: flex-end;
-    font-size: var(--nav_font_size);
+    font-size: var(--small_font_size);
     display: flex;
     gap: 5px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 2fr, 1fr;
+    grid-template-rows: 2fr 1fr 4fr;
+    grid-template-areas: 
+    "mw mw"
+    "hf hf"
+    "wf wc";
+    width: inherit;
+}
+
+.main_weather {
+    grid-area: mw;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.mw_city {
+    font-size: 2rem;
+    line-height: 0.9em;
+}
+
+.mw_temperature {
+    display: flex;
+    font-size: 6rem;
+    font-weight: 300;
+    line-height: 0.8em;
+}
+
+.mw_info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding-top: 3px;
+}
+
+.mw_high_low {
+    display: flex;
+    gap: 7px;
+}
+ 
+.hourly_forecast {
+    grid-area: hf;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    height: 210px;
+    background-color: var(--darker_blue);
+    border-radius: var(--rounded_corners);
+    margin: var(--normal_spacing);
+    padding: var(--normal_spacing);
+    overflow: auto;
+}
+
+.hf_title {
+    font-size: var(--large_font_size);
+    font-weight: bold;
+    line-height: 0.8em;
+}
+
+hr {
+    border: none;
+    height: 0.1px;
+    background-color: var(--light_transparent);
+    width: inherit;
+}
+
+.hf_forecast {
+    display: flex;
+    gap: 20px;
+    height: inherit;
+    overflow: auto;
+}
+
+.hf_details {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    width: 100%;
+}
+
+.hf_time, .hf_precipitation {
+    color: var(--light_transparent);
+    font-size: var(--small_font_size);
+}
+
+.hf_symbol {
+    font-size: var(--large_font_size);
+}
+
+.hf_temperature {
+    font-size: var(--large_font_size);
+}
+
+.hf_precipitation {
+    display: flex;
+    align-items: center;
+}
+
+.weekly_forecast {
+    grid-area: wf;
+}
+
+.weather_conditions {
+    grid-area: wc;
+}
+
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgb(10, 10, 10);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: gray;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: darkgray;
 }

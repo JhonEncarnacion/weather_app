@@ -7,6 +7,7 @@
     <title>Weather App</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,200,0,200&icon_names=water_drop" />
     <link rel="icon" href="Icons/weather.png">
     <script src="script.js" defer></script>
 </head>
@@ -27,8 +28,8 @@
                 <div class="sl_temperature">64&deg;</div>
                 <div class="sl_sky_condition">Partly Cloudy</div>
                 <div class="sl_high_low">
-                    <div class="high">High: 67&deg;</div>
-                    <div class="low">Low: 59&deg;</div>
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
                 </div>
             </li>
             <li class="saved_location">
@@ -39,8 +40,8 @@
                 <div class="sl_temperature">64&deg;</div>
                 <div class="sl_sky_condition">Partly Cloudy</div>
                 <div class="sl_high_low">
-                    <div class="high">High: 67&deg;</div>
-                    <div class="low">Low: 59&deg;</div>
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
                 </div>
             </li>
             <li class="saved_location">
@@ -51,8 +52,8 @@
                 <div class="sl_temperature">64&deg;</div>
                 <div class="sl_sky_condition">Partly Cloudy</div>
                 <div class="sl_high_low">
-                    <div class="high">High: 67&deg;</div>
-                    <div class="low">Low: 59&deg;</div>
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
                 </div>
             </li>
             <li class="saved_location">
@@ -63,8 +64,8 @@
                 <div class="sl_temperature">64&deg;</div>
                 <div class="sl_sky_condition">Partly Cloudy</div>
                 <div class="sl_high_low">
-                    <div class="high">High: 67&deg;</div>
-                    <div class="low">Low: 59&deg;</div>
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
                 </div>
             </li>
             <li class="saved_location">
@@ -75,8 +76,8 @@
                 <div class="sl_temperature">64&deg;</div>
                 <div class="sl_sky_condition">Partly Cloudy</div>
                 <div class="sl_high_low">
-                    <div class="high">High: 67&deg;</div>
-                    <div class="low">Low: 59&deg;</div>
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
                 </div>
             </li>
         </ul>
@@ -86,23 +87,221 @@
         <section class="main_weather">
             <div class="mw_city">Juneau</div>
             <div class="mw_temperature">40&deg;</div>
-            <div class="mw_sky_condition">Rainy</div>
-            <div class="mw_feels_like"></div>
-            <div class="mw_high/low">High: 40&deg; Low: 34&deg;</div>
+            <div class="mw_info">
+                <div class="mw_sky_condition">Rainy</div>
+                <div class="mw_feels_like">Feels like 37&deg;</div>
+                <div class="mw_high_low">
+                    <div class="mw_high">High: 40&deg;</div>
+                    <div class="mw_low">Low: 34&deg;</div>
+                </div>
+            </div>
         </section>
 
         <section class="hourly_forecast">
             <div class="hf_title">Hourly Forecast</div>
-
-            <div class="hf_details">
-                <div class="hf_title">Hourly Forecast</div>
-                <div class="hf_time">4 PM</div>
-                <div class="hf_symbol">☀️</div>
-                <div class="hf_temperature">40&deg;</div>
-                <div class="hf_precipitation">80&percnt;</div>
+            <hr>
+            <div class="hf_forecast">
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
+                <div class="hf_details">
+                    <div class="hf_time">4 PM</div>
+                    <div class="hf_symbol">☀️</div>
+                    <div class="hf_temperature">40&deg;</div>
+                    <div class="hf_precipitation">
+                        <span class="material-symbols-outlined" style="font-size: 18px;">water_drop</span>
+                        <div class="hf_number">80&percnt;</div>
+                    </div>
+                </div>
             </div>
         </section>
-        
+
         <section class="weekly_forecast">
             <div class="wf_title">Weekly Forecast</div>
 
@@ -131,13 +330,13 @@
                     <img class="weather_icons" src="Icons/sunny.svg" alt="Air Quality Index Icon">
                     Air Quality Index
                 </div>
-            
+
                 <div class="aqi_details">
                     <div class="aq_number">32</div>
                     <div class="aq_quality">Good</div>
                 </div>
             </section>
-            
+
             <section class="wind">
                 <div class="w_title">
                     <img class="weather_icons" src="Icons/sunny.svg" alt="Wind Icon">
@@ -163,13 +362,13 @@
                     <div class="h_strength">Dry</div>
                 </div>
             </section>
-            
+
             <section class="uv_index">
                 <div class="uv_title">
                     <img class="weather_icons" src="Icons/sunny.svg" alt="UV Index Icon">
                     UV Index
                 </div>
-                
+
                 <div class="uv_details">
                     <div class="uv_number">7</div>
                     <div class="uv_amount">High</div>
@@ -181,7 +380,7 @@
                     <img class="weather_icons" src="Icons/sunny.svg" alt="Pressure Icon">
                     Pressure
                 </div>
-                
+
                 <div class="p_details">
                     <div class="p_number">29.70</div>
                     <div class="p_unit">inHg</div>
