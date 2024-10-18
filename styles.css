@@ -6,11 +6,12 @@
     --darker_blue: rgb(0, 30, 60);
     --dark_blue: rgb(0, 50, 100);
     --blue: rgb(0, 90, 150);
-    --rounded_corners: 10px;
+    --rounded_corners: 15px;
     --normal_spacing: 15px;
-    --less_spacing: 10px;
+    --small_spacing: 3px;
     --large_font_size: 1.5rem;
     --small_font_size: 0.7rem;
+    --weather_icon_size: var(--large_font_size);
 }
 
 * {
@@ -21,8 +22,8 @@
 
 body {
     display: flex;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     font-family: "Lato", sans-serif;
     color: var(--very_light_transparent);
     background-color: var(--dark_blue);
@@ -33,7 +34,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: var(--normal_spacing);
     padding: var(--normal_spacing);
     width: 350px;
     background-color: var(--darker_blue);
@@ -70,7 +71,7 @@ nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px;
+    gap: var(--normal_spacing);
     width: 100%;
 }
 
@@ -82,7 +83,7 @@ nav {
         "top_left temp"
         "cond high_low";
     list-style-type: none;
-    border-radius: var(--normal_spacing);
+    border-radius: var(--rounded_corners);
     padding: var(--normal_spacing);
     width: 100%;
     background-color: var(--dark_blue);
@@ -138,13 +139,15 @@ nav {
 
 main {
     display: grid;
-    grid-template-columns: 2fr, 1fr;
+    grid-template-columns: 1.5fr 3fr ;
     grid-template-rows: 2fr 1fr 4fr;
     grid-template-areas: 
     "mw mw"
     "hf hf"
     "wf wc";
     width: inherit;
+    gap: var(--normal_spacing);
+    padding: var(--normal_spacing);
 }
 
 .main_weather {
@@ -154,7 +157,7 @@ main {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: var(--normal_spacing);
 }
 
 .mw_city {
@@ -175,7 +178,7 @@ main {
     justify-content: center;
     align-items: center;
     gap: 5px;
-    padding-top: 3px;
+    padding-top: var(--small_spacing);
 }
 
 .mw_high_low {
@@ -191,12 +194,11 @@ main {
     height: 210px;
     background-color: var(--darker_blue);
     border-radius: var(--rounded_corners);
-    margin: var(--normal_spacing);
     padding: var(--normal_spacing);
     overflow: auto;
 }
 
-.hf_title {
+.title {
     font-size: var(--large_font_size);
     font-weight: bold;
     line-height: 0.8em;
@@ -230,7 +232,7 @@ hr {
 }
 
 .hf_symbol {
-    font-size: var(--large_font_size);
+    font-size: var(--weather_icon_size);
 }
 
 .hf_temperature {
@@ -244,10 +246,76 @@ hr {
 
 .weekly_forecast {
     grid-area: wf;
+    display: flex;
+    flex-direction: column;
+    gap: var(--normal_spacing);
+    background-color: var(--darker_blue);
+    border-radius: var(--rounded_corners);
+    padding: var(--normal_spacing);
+}
+
+.wf_forecast {
+    display: flex;
+    flex-direction: column;
+    gap: var(--normal_spacing);
+}
+
+.wf_details {
+    display: grid;
+    grid-template-columns: 1fr 5fr 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-template-areas: 
+    "s wi pi hl";
+    align-items: center;
+    gap: var(--normal_spacing);
+}
+
+.wf_symbol {
+    grid-area: s;
+    place-self: center;
+    font-size: var(--large_font_size);
+}
+
+.wf_weather_info, .wf_precipitation_info, .wf_high_low {
+    grid-area: wi;
+    display: flex;
+    flex-direction: column;
+    gap: var(--small_spacing);
+}
+
+.wf_day {
+    font-weight: bold;
+}
+
+.wf_sky_condition {
+    font-size: var(--small_font_size);
+}
+
+.wf_precipitation_info {
+    grid-area: pi;
+    align-items: center;
+    justify-content: center;
+    color: var(--light_transparent);
+}
+
+.wf_percentage {
+    font-size: var(--small_font_size);
+}
+
+.wf_high_low {
+    grid-area: hl;
+    align-items: center;
+    justify-content: center;
 }
 
 .weather_conditions {
     grid-area: wc;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    background-color: var(--darker_blue);
+    border-radius: var(--rounded_corners);
+    padding: var(--normal_spacing);
 }
 
 ::-webkit-scrollbar {
