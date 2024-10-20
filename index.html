@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather App</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,200,0,200&icon_names=water_drop" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@200&icon_names=arrow_right_alt,search,water_drop"/>
     <link rel="icon" href="Icons/weather.png">
     <script src="script.js" defer></script>
 </head>
@@ -15,11 +14,47 @@
 <body>
     <nav>
         <section class="search_bar">
-            <span class="material-icons search_icon">search</span>
+            <span class="material-symbols-outlined" style="font-weight: 600;">search</span>            
             <input type="text" id="search_location" name="search_location" placeholder="Search for a city">
         </section>
 
         <ul class="location_history">
+            <li class="saved_location">
+                <div class="top_left">
+                    <div class="sl_city">Bronx</div>
+                    <div class="sl_time">2:37 PM</div>
+                </div>
+                <div class="sl_temperature">64&deg;</div>
+                <div class="sl_sky_condition">Partly Cloudy</div>
+                <div class="sl_high_low">
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
+                </div>
+            </li>
+            <li class="saved_location">
+                <div class="top_left">
+                    <div class="sl_city">Bronx</div>
+                    <div class="sl_time">2:37 PM</div>
+                </div>
+                <div class="sl_temperature">64&deg;</div>
+                <div class="sl_sky_condition">Partly Cloudy</div>
+                <div class="sl_high_low">
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
+                </div>
+            </li>
+            <li class="saved_location">
+                <div class="top_left">
+                    <div class="sl_city">Bronx</div>
+                    <div class="sl_time">2:37 PM</div>
+                </div>
+                <div class="sl_temperature">64&deg;</div>
+                <div class="sl_sky_condition">Partly Cloudy</div>
+                <div class="sl_high_low">
+                    <div class="sl_high">High: 67&deg;</div>
+                    <div class="sl_low">Low: 59&deg;</div>
+                </div>
+            </li>
             <li class="saved_location">
                 <div class="top_left">
                     <div class="sl_city">Bronx</div>
@@ -100,7 +135,7 @@
         <section class="hourly_forecast">
             <div class="title">Hourly Forecast</div>
             <hr>
-            <div class="hf_forecast">
+            <div class="hf_main">
                 <div class="hf_details">
                     <div class="hf_time">4 PM</div>
                     <div class="hf_symbol">☀️</div>
@@ -305,7 +340,7 @@
         <section class="weekly_forecast">
             <div class="title">Weekly Forecast</div>
             <hr>
-            <div class="wf_forecast">
+            <div class="wf_main">
                 <div class="wf_details">
                     <div class="wf_symbol">☀️</div>
                     <div class="wf_weather_info">
@@ -414,86 +449,71 @@
             </div>
         </section>
 
-        <section class="weather_conditions">
-            <div class="title">Weather Conditions</div>
-            <hr>
+        <section class="weather_conditions">         
             <section class="air_quality_index">
-                <div class="aqi_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Air Quality Index Icon">
-                    Air Quality Index
-                </div>
-
-                <div class="aqi_details">
-                    <div class="aq_number">32</div>
-                    <div class="aq_quality">Good</div>
+                <div class="title">Air Quality Index</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="number">32</div>
+                    <div class="description">Good</div>
                 </div>
             </section>
-
+            
             <section class="wind">
-                <div class="w_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Wind Icon">
-                    Wind
-                </div>
-
-                <div class="w_details">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Wind Icon">
-                    <div class="w_speed_number">6</div>
-                    <div class="w_speed_unit">mph</div>
-                    <div class="w_strength">Light</div>
+                <div class="title">Wind</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="measurement">
+                        <div class="number">6</div>
+                        <div class="unit">mph</div>
+                        <span class="material-symbols-outlined" style="font-size: 2.5rem;">arrow_right_alt</span>
+                    </div>
+                    <div class="description">Light</div>
                 </div>
             </section>
-
+            
             <section class="humidity">
-                <div class="h_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Humidity Icon">
-                    Humidity
-                </div>
-
-                <div class="h_details">
-                    <div class="h_percentage">49&percnt;</div>
-                    <div class="h_strength">Dry</div>
+                <div class="title">Humidity</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="measurement">
+                        <div class="number">49</div>
+                        <div class="unit">&percnt;</div>
+                    </div>
+                    <div class="description">Dry</div>
                 </div>
             </section>
-
+            
             <section class="uv_index">
-                <div class="uv_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="UV Index Icon">
-                    UV Index
-                </div>
-
-                <div class="uv_details">
-                    <div class="uv_number">7</div>
-                    <div class="uv_amount">High</div>
+                <div class="title">UV Index</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="number">7</div>
+                    <div class="description">High</div>
                 </div>
             </section>
-
+            
             <section class="pressure">
-                <div class="p_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Pressure Icon">
-                    Pressure
-                </div>
-
-                <div class="p_details">
-                    <div class="p_number">29.70</div>
-                    <div class="p_unit">inHg</div>
-                    <div class="p_strength">Moderate</div>
+                <div class="title">Pressure</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="measurement">
+                        <div class="number">29.70</div>
+                        <div class="unit">inHg</div>
+                    </div>
+                    <div class="description">Moderate</div>
                 </div>
             </section>
-
+            
             <section class="sunrise/sunset">
-                <div class="ss_title">
-                    <img class="weather_icons" src="Icons/sunny.svg" alt="Sunset Icon">
-                    Sunrise & Sunset
-                </div>
-
-                <div class="sunrise">
-                    <div class="sunrise_title">Sunrise</div>
-                    <div class="sunrise_time">7:02 AM</div>
-                </div>
-
-                <div class="sunset">
-                    <div class="sunset_title">Sunset</div>
-                    <div class="sunset_time">6:22 PM</div>
+                <div class="title">Sunrise & Sunset</div>
+                <hr>
+                <div class="wc_details">
+                    <div class="measurement">
+                        <div class="number">7:42</div>
+                        <div class="unit">PM</div>
+                    </div>
+                    <div class="description">Sunset</div>
                 </div>
             </section>
         </section>
