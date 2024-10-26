@@ -38,6 +38,7 @@ nav {
     gap: var(--normal_spacing);
     padding: var(--normal_spacing);
     background-color: var(--darker_blue);
+    min-width: 300px;
     width: inherit;
     height: inherit;
     overflow: auto;
@@ -117,7 +118,7 @@ nav {
     font-size: var(--small_font_size);
 }
 
-.sl_temperature {
+.sl_temp {
     grid-area: temp;
     justify-self: flex-end;
     font-size: 2.5rem;
