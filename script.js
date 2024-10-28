@@ -46,6 +46,7 @@ const WEATHER_API_KEY = "2a0265e0ff8f4b72881145040242110";
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
 // Array variables
+const savedLocationsCollection = [];
 const savedLocationCollection = [];
 const savedLocationVariablesCollection = [slCity, slTime, slTemp, slSkyCondition, slHighTemp, slLowTemp, mwFeelsLike];
 const hourlyForecastCollection = [];
@@ -159,19 +160,19 @@ async function fetchWeather() {
 
         console.log("WEATHER CONDITIONS VARIBALES:");
         const weatherConditions = [];
-        const fetchWindSpeed = getCurrentWeatherJSON.current.wind_mph;
+        const fetchWindSpeed = getForecastWeatherJSON.current.wind_mph;
         weatherConditions.push(fetchWindSpeed);
-        const fetchWindDirection = getCurrentWeatherJSON.current.wind_dir;
+        const fetchWindDirection = getForecastWeatherJSON.current.wind_dir;
         weatherConditions.push(fetchWindDirection);
-        // make a function that turns the direction into rotation degrees for the arrow
+        rotateArrow(fetchWindDirection);
         console.log(`Wind: ${fetchWindSpeed}mph | Direction: ${fetchWindDirection}`);
-        const fetchHumidity = getCurrentWeatherJSON.current.humidity;
+        const fetchHumidity = getForecastWeatherJSON.current.humidity;
         weatherConditions.push(fetchHumidity);
         console.log(`Humidity: ${fetchHumidity}%`);
-        const fetchUVI = getCurrentWeatherJSON.current.uv;
+        const fetchUVI = getForecastWeatherJSON.current.uv;
         weatherConditions.push(fetchUVI);
         console.log(`UVI: ${fetchUVI}`);
-        const fetchPressure = getCurrentWeatherJSON.current.pressure_in;
+        const fetchPressure = getForecastWeatherJSON.current.pressure_in;
         weatherConditions.push(fetchPressure);
         console.log(`Pressure: ${fetchPressure}inHg`);
         const fetchSunriseTime = getForecastWeatherJSON.forecast.forecastday[0].astro.sunrise;
@@ -204,6 +205,16 @@ function getDayOfTheWeek(originalDate) {
     let newDate = new Date(date);
     const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     return daysOfTheWeek[newDate.getDay()];
+}
+
+function rotateArrow(windDirection) {
+    const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
+    directions.forEach((value, index) => {
+        if (value === windDirection) {
+            let rotation = 22.5 * index;
+            windArrow.style.transform = `rotate(${rotation}deg)`;
+        }
+    });
 }
 
 function updateWeather() {

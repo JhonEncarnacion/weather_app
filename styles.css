@@ -371,6 +371,10 @@ hr {
     font-size: 1.5rem;
 }
 
+.arrow_rotate {
+    transform: rotate(22.5deg);
+}
+
 ::-webkit-scrollbar {
     height: 10px;
     width: 10px;
