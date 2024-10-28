@@ -316,7 +316,34 @@ hr {
     display: grid;
     grid-template-rows: repeat(2, 1fr);
     grid-template-columns: repeat(3, 1fr);
+    grid-template-areas: 
+    "uvi wind sunrise"
+    "humidity pressure sunset";
     gap: var(--normal_spacing);
+}
+
+.wind {
+    grid-area: wind;
+}
+
+.humidity {
+    grid-area: humidity;
+}
+
+.uv_index {
+    grid-area: uvi;
+}
+
+.pressure {
+    grid-area: pressure;
+}
+
+.sunrise {
+    grid-area: sunrise;
+}
+
+.sunset {
+    grid-area: sunset;
 }
 
 .weather_conditions > * {
@@ -330,29 +357,18 @@ hr {
 
 .wc_details {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
+    align-items: flex-end;
+    gap: 3px;
     font-weight: 300;
 }
 
-.measurement {
-    display: flex;
-    align-items: flex-end;
-    gap: 3px;
-}
-
 .number {
-    font-size: 3rem;
+    font-size: 3.5rem;
     line-height: 0.9;
 }
 
 .unit {
     font-size: 1.5rem;
-}
-
-.description {
-    font-size: 1.5rem;
-    font-weight: 400;
 }
 
 ::-webkit-scrollbar {
