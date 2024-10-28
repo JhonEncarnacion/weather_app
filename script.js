@@ -43,9 +43,7 @@ const sunsetNumber = document.querySelectorAll("number")[5];
 
 // Weather API variables
 const WEATHER_API_KEY = "2a0265e0ff8f4b72881145040242110";
-const WEATHER_API_BASE_URL = "https://api.weatherapi.com/v1";
-const CURRENT = "/current.json";
-const FORECAST = "/forecast.json";
+const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
 // Array variables
 const savedLocationCollection = [];
@@ -70,36 +68,32 @@ search.addEventListener("keydown", event => {
 // Fetches weather data and presents it to the user
 async function fetchWeather() {
     try {
+        // Stores the location inputted by the user
         const location = search.value;
         
-        // Weather API URL variables
-        const currentWeatherAPI = new URL(WEATHER_API_BASE_URL + CURRENT + "?key=" + WEATHER_API_KEY);
-        currentWeatherAPI.searchParams.set("q", location);
-        const forecastWeatherAPI = new URL(WEATHER_API_BASE_URL + FORECAST + "?key=" + WEATHER_API_KEY);
+        // Creates variable for the weather API
+        const forecastWeatherAPI = new URL(WEATHER_API_URL + "?key=" + WEATHER_API_KEY);
         forecastWeatherAPI.searchParams.set("q", location);
         forecastWeatherAPI.searchParams.set("days", 7);
 
-        // Fetches weather data
-        const getCurrentWeather = await fetch(currentWeatherAPI);
-        const getCurrentWeatherJSON = await getCurrentWeather.json();
-        console.log(getCurrentWeatherJSON);
+        // Fetches weather data and prints it out
         const getForecastWeather = await fetch(forecastWeatherAPI);
         const getForecastWeatherJSON = await getForecastWeather.json();
         console.log(getForecastWeatherJSON);
 
-        // Saves JSON weather data into variables and prints them out
+        // Stores JSON weather data and prints them out
         console.log("SAVED LOCATIONS VARIABLES:")
         const savedLocation = [];
         const fetchSavedCity = getForecastWeatherJSON.location.name;
         savedLocation.push(fetchSavedCity);
         console.log("City: " + fetchSavedCity);
-        const fetchSavedTime = convertTimeFormat(getCurrentWeatherJSON.location.localtime.split(" ")[1]);
+        const fetchSavedTime = convertTimeFormat(getForecastWeatherJSON.location.localtime.split(" ")[1]);
         savedLocation.push(fetchSavedTime);
         console.log("Time: " + fetchSavedTime);
-        const fetchSavedTemp = Math.round(getCurrentWeatherJSON.current.temp_f);
+        const fetchSavedTemp = Math.round(getForecastWeatherJSON.current.temp_f);
         savedLocation.push(fetchSavedTemp);
         console.log("Temperature: " + fetchSavedTemp);
-        const fetchSavedSkyCondition = getCurrentWeatherJSON.current.condition.text;
+        const fetchSavedSkyCondition = getForecastWeatherJSON.current.condition.text;
         savedLocation.push(fetchSavedSkyCondition);
         console.log("Sky Condition: " + fetchSavedSkyCondition);
         const fetchSavedHighTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.maxtemp_f);
@@ -108,17 +102,22 @@ async function fetchWeather() {
         const fetchSavedLowTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.mintemp_f);
         savedLocation.push(fetchSavedLowTemp);
         console.log("Low: " + fetchSavedLowTemp);
-        const fetchMainFeelsLike = Math.round(getCurrentWeatherJSON.current.feelslike_f);
+        const fetchMainFeelsLike = Math.round(getForecastWeatherJSON.current.feelslike_f);
         savedLocation.push(fetchMainFeelsLike);
         console.log("Feels like: " + fetchMainFeelsLike);
+        savedLocationCollection.push(savedLocation);
 
         console.log("HOURLY FORECAST VARIABLES:");
-        const hfStart = Math.ceil(getCurrentWeatherJSON.location.localtime.split(" ")[1].split(":").join("."));
+        // Converts time into a float and then rounds up
+        const hfStart = Math.ceil(getForecastWeatherJSON.location.localtime.split(" ")[1].split(":").join("."));
+        // Stores length of the hour array 
         const hfLength = getForecastWeatherJSON.forecast.forecastday[0].hour.length;
+        // Prefix for hourly forecast variables to save time
         const hfIntro = getForecastWeatherJSON.forecast.forecastday[0].hour;
 
         for (let i = hfStart; i < hfLength + hfStart; i++) {
             const hourlyForecast = [];
+            // [i % hfLength] is used to make the hour array wrappable
             const fetchHFTime = convertTimeFormat(hfIntro[i % hfLength].time.split(" ")[1]);
             hourlyForecast.push(fetchHFTime);
             console.log("Hourly Time: " + fetchHFTime);
@@ -131,26 +130,32 @@ async function fetchWeather() {
             const fetchHFPrec = Math.round(Math.max(hfIntro[i % hfLength].chance_of_rain, hfIntro[i % hfLength].chance_of_snow));
             hourlyForecast.push(fetchHFPrec);
             console.log("Hourly Precipitation: " + fetchHFPrec);
+            hourlyForecastCollection.push(hourlyForecast);
         }
         
-        
         console.log("WEEKLY FORECAST VARIABLES:");
-        const weeklyForecast = [];
-        const fetchWFDay = getDayOfTheWeek(getForecastWeatherJSON.forecast.forecastday[0].date);
-        weeklyForecast.push(fetchWFDay);
-        console.log("First Day - Day: " + fetchWFDay);
-        const fetchWFSkyCondition = getForecastWeatherJSON.forecast.forecastday[0].day.condition.text;
-        weeklyForecast.push(fetchWFSkyCondition);
-        console.log("First Day - Sky Condition: " + fetchWFSkyCondition);
-        const fetchWFPrec = Math.round(Math.max(getForecastWeatherJSON.forecast.forecastday[0].day.daily_chance_of_rain, getForecastWeatherJSON.forecast.forecastday[0].day.daily_chance_of_snow));
-        weeklyForecast.push(fetchWFPrec);
-        console.log("First Day - Precipitation: " + fetchWFPrec);
-        const fetchWFHighTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.maxtemp_f);
-        weeklyForecast.push(fetchWFHighTemp);
-        console.log("First Day - High: " + fetchWFHighTemp);
-        const fetchWFLowTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.mintemp_f);
-        weeklyForecast.push(fetchWFLowTemp);
-        console.log("First Day - Low: " + fetchWFLowTemp);
+        const wfIntro = getForecastWeatherJSON.forecast.forecastday;
+
+        for (i in wfIntro) {
+            const weeklyForecast = [];
+            // The first date index returns "Today" instead of a day of the week
+            const fetchWFDay = i != 0 ? getDayOfTheWeek(wfIntro[i].date) : "Today";
+            weeklyForecast.push(fetchWFDay);
+            console.log("Weekly Day: " + fetchWFDay);
+            const fetchWFSkyCondition = wfIntro[i].day.condition.text;
+            weeklyForecast.push(fetchWFSkyCondition);
+            console.log("Weekly Sky Condition: " + fetchWFSkyCondition);
+            const fetchWFPrec = Math.round(Math.max(wfIntro[i].day.daily_chance_of_rain, wfIntro[i].day.daily_chance_of_snow));
+            weeklyForecast.push(fetchWFPrec);
+            console.log("Weekly Precipitation: " + fetchWFPrec);
+            const fetchWFHighTemp = Math.round(wfIntro[i].day.maxtemp_f);
+            weeklyForecast.push(fetchWFHighTemp);
+            console.log("Weekly High: " + fetchWFHighTemp);
+            const fetchWFLowTemp = Math.round(wfIntro[i].day.mintemp_f);
+            weeklyForecast.push(fetchWFLowTemp);
+            console.log("Weekly Low: " + fetchWFLowTemp);
+            weeklyForecastCollection.push(weeklyForecast);
+        }
 
         console.log("WEATHER CONDITIONS VARIBALES:");
         const weatherConditions = [];
@@ -193,9 +198,12 @@ function convertTimeFormat(originalTime) {
 
 // Returns day of the week of a given date
 function getDayOfTheWeek(originalDate) {
-    let date = new Date(originalDate);
+    let date = originalDate;
+    const [y, m, d] = date.split("-");
+    date = [m, d, y].join("-");
+    let newDate = new Date(date);
     const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-    return daysOfTheWeek[date.getDay()];
+    return daysOfTheWeek[newDate.getDay()];
 }
 
 function updateWeather() {
