@@ -89,25 +89,25 @@ nav {
     list-style-type: none;
     border-radius: var(--rounded_corners);
     padding: var(--normal_spacing);
+    padding-top: 10px;
     width: 100%;
     background-color: var(--dark_blue);
+    cursor: pointer;
 }
 
 .saved_location:first-child {
     background-color: var(--blue);
 }
 
-.top_left {
+.sl_top_left {
     grid-area: top_left;
     display: flex;
     flex-direction: column;
-    gap: 5px;
 }
 
 .sl_city {
     font-size: var(--large_font_size);
     font-weight: bold;
-    line-height: 0.8em;
     max-width: 180px;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -118,12 +118,15 @@ nav {
     font-size: var(--small_font_size);
 }
 
-.sl_temp {
+.sl_temperature {
     grid-area: temp;
     justify-self: flex-end;
     font-size: 2.5rem;
     font-weight: 300;
-    line-height: 0.75em;
+}
+
+.sl_temperature::after {
+    content: "\00b0";
 }
 
 .sl_sky_condition {
@@ -139,6 +142,14 @@ nav {
     font-size: var(--small_font_size);
     display: flex;
     gap: 5px;
+}
+
+.sl_high::after {
+    content:"\00b0";
+}
+
+.sl_low::after {
+    content:"\00b0";
 }
 
 main {
@@ -175,6 +186,10 @@ main {
     line-height: 0.8em;
 }
 
+.mw_temperature::after {
+    content:"\00b0";
+}
+
 .mw_info {
     display: flex;
     flex-direction: column;
@@ -184,9 +199,25 @@ main {
     padding-top: var(--small_spacing);
 }
 
+.mw_feels_like::before {
+    content:"Feels like ";
+}
+
+.mw_feels_like::after {
+    content:"\00b0";
+}
+
 .mw_high_low {
     display: flex;
     gap: 7px;
+}
+
+.mw_high::after {
+    content:"\00b0";
+}
+
+.mw_low::after {
+    content:"\00b0";
 }
  
 .hourly_forecast {
@@ -373,6 +404,22 @@ hr {
 
 .arrow_rotate {
     transform: rotate(22.5deg);
+}
+
+.sl_high::before, .mw_high::before {
+    content: "High: ";
+}
+
+.sl_low::before, .mw_low::before {
+    content: "Low: ";
+}
+
+.sl_temperature::after, .sl_high::after, .sl_low::after, .mw_temperature::after, .mw_feels_like::after, .mw_high::after, .mw_low::after, .hf_temperature::after, .wf_high::after, .wf_low::after{
+    content:"\00b0";
+}
+
+.hf_number::after, .wf_percentage::after {
+    content: "\0025";
 }
 
 ::-webkit-scrollbar {
