@@ -63,8 +63,17 @@ search.addEventListener("keydown", async (event) => {
         if (search.value.trim() === "") {
             alert("An empty search field is not allowed!");
         } else {
-            const weatherData = await fetchWeather();
-            await updateWeather(weatherData);
+            try {
+                const weatherData = await fetchWeather();
+                if (!weatherData) throw new Error("Failed to fetch weather data.");
+                await updateNewSavedLocation(weatherData);
+                await updateWeather(weatherData);
+                search.value = "";
+            } catch (error) {
+                console.log(error);
+                search.value = "";
+                return;
+            }
         }
     }
 });
@@ -88,13 +97,13 @@ async function fetchWeather() {
             } else {
                 alert("Could not fetch weather data, please try again later.");
             }
-            return; // Exit the function early if there's an error
+            return;
         }
         const getForecastWeatherJSON = await getForecastWeather.json();
         console.log(getForecastWeatherJSON);
 
         // Stores JSON weather data and prints them out
-        console.log("SAVED LOCATIONS VARIABLES:");
+        // SAVED LOCATIONS VARIABLES
         const savedLocationCollection = [];
         const savedLocation = [];
         const fetchSavedCity = getForecastWeatherJSON.location.name;
@@ -111,7 +120,7 @@ async function fetchWeather() {
         savedLocation.push(fetchSavedLowTemp);
         savedLocationCollection.push(savedLocation);
 
-        console.log("MAIN WEATHER VARIABLES:");
+        // MAIN WEATHER VARIABLES
         const mainWeather = [];
         mainWeather.push(fetchSavedCity);
         mainWeather.push(fetchSavedTemp);
@@ -122,7 +131,7 @@ async function fetchWeather() {
         mainWeather.push(fetchSavedLowTemp);
         savedLocationCollection.push(mainWeather);
 
-        console.log("HOURLY FORECAST VARIABLES:");
+        // HOURLY FORECAST VARIABLES
         const hourlyForecastCollection = [];
         // Converts time into a float and then rounds up
         const hfStart = Math.ceil(getForecastWeatherJSON.location.localtime.split(" ")[1].split(":").join("."));
@@ -136,21 +145,17 @@ async function fetchWeather() {
             // [i % hfLength] is used to make the hour array wrappable
             const fetchHFTime = convertTimeFormatShort(hfIntro[i % hfLength].time.split(" ")[1]);
             hourlyForecast.push(fetchHFTime);
-            console.log("Hourly Time: " + fetchHFTime);
             const fetchHFSkyCondition = hfIntro[i % hfLength].condition.text.toLowerCase().trim();
             hourlyForecast.push(fetchHFSkyCondition);
-            console.log("Hourly Sky Condition: " + fetchHFSkyCondition);
             const fetchHFTemp = Math.round(hfIntro[i % hfLength].temp_f);
             hourlyForecast.push(fetchHFTemp);
-            console.log("Hourly Temperature: " + fetchHFTemp);
             const fetchHFPrec = Math.round(Math.max(hfIntro[i % hfLength].chance_of_rain, hfIntro[i % hfLength].chance_of_snow));
             hourlyForecast.push(fetchHFPrec);
-            console.log("Hourly Precipitation: " + fetchHFPrec);
             hourlyForecastCollection.push(hourlyForecast);
         }
         savedLocationCollection.push(hourlyForecastCollection);
         
-        console.log("WEEKLY FORECAST VARIABLES:");
+        // WEEKLY FORECAST VARIABLES
         const weeklyForecastCollection = [];
         const wfIntro = getForecastWeatherJSON.forecast.forecastday;
 
@@ -172,7 +177,7 @@ async function fetchWeather() {
         }
         savedLocationCollection.push(weeklyForecastCollection);
 
-        console.log("WEATHER CONDITIONS VARIBALES:");
+        // WEATHER CONDITIONS VARIBALES
         const weatherConditions = [];
         const fetchWindSpeed = getForecastWeatherJSON.current.wind_mph;
         weatherConditions.push(fetchWindSpeed);
@@ -196,6 +201,119 @@ async function fetchWeather() {
     } catch (error) {
         console.log("ERROR: " + error);
         alert("An error occurred while fetching weather data");
+    }
+}
+
+// Makes the saved weather location accessible
+locationHistory.addEventListener("click", (event) => {
+    if (event.target.tagName === "LI") {
+        // Get all current list items
+        const items = Array.from(locationHistory.children);  
+        // Find the index of the clicked item
+        const index = items.indexOf(event.target); 
+        //updateExistingSavedLocation(savedLocationVariablesCollection[index]);
+        updateWeather(savedLocationsCollection[index]);
+        console.log(index);
+    }
+});
+
+// Updates the web app with the appropriate weather data
+async function updateNewSavedLocation(weatherData) {
+    const newSavedLocation = document.createElement("li");
+    newSavedLocation.classList.add("saved_location");
+    locationHistory.prepend(newSavedLocation);
+    const newSLTopLeft = document.createElement("div");
+    newSLTopLeft.classList.add("sl_top_left");
+    newSavedLocation.append(newSLTopLeft);
+    const newSLCity = document.createElement("div");
+    newSLCity.classList.add("sl_city");
+    newSLCity.textContent = weatherData[0][0];
+    newSLTopLeft.append(newSLCity);
+    const newSLTime = document.createElement("div");
+    newSLTime.classList.add("sl_time");
+    newSLTime.textContent = weatherData[0][1];
+    newSLTopLeft.append(newSLTime);
+    const newSLTemp = document.createElement("div");
+    newSLTemp.classList.add("sl_temperature");
+    newSLTemp.textContent = weatherData[0][2];
+    newSavedLocation.append(newSLTemp);
+    const newSLSkyCondition = document.createElement("div");
+    newSLSkyCondition.classList.add("sl_sky_condition");
+    newSLSkyCondition.textContent = weatherData[0][3];
+    newSavedLocation.append(newSLSkyCondition);
+    const newSLHighLow = document.createElement("div");
+    newSLHighLow.classList.add("sl_high_low");
+    newSavedLocation.append(newSLHighLow);
+    const newSLHighTemp = document.createElement("div");
+    newSLHighTemp.classList.add("sl_high");
+    newSLHighTemp.textContent = weatherData[0][4];
+    newSLHighLow.append(newSLHighTemp);
+    const newSLLowTemp = document.createElement("div");
+    newSLLowTemp.classList.add("sl_low");
+    newSLLowTemp.textContent = weatherData[0][5];
+    newSLHighLow.append(newSLLowTemp); 
+}
+/* async function updateExistingSavedLocation(weatherData) {
+    // Updated Saved Location variables
+    for (let i = 0; i < weatherData[0].length; i++) {
+        savedLocationVariablesCollection[i].textContent = weatherData[0][i];
+    }
+} */
+async function updateWeather(weatherData) {
+    // Updated Main Weather variables
+    for (let i = 0; i < weatherData[1].length; i++) {
+        mainWeatherVariablesCollection[i].textContent = weatherData[1][i];
+    }
+
+    // Updated Hourly Forecast variables 1
+    hourlyForecastVariablesCollection[0].forEach((hf, index) => {
+        hf.textContent = weatherData[2][index][0];
+    });
+    
+    hourlyForecastVariablesCollection[1].forEach((hf, index) => {
+        hf.textContent = getWeatherSymbol(weatherData[2][index][1]);
+    });
+
+    hourlyForecastVariablesCollection[2].forEach((hf, index) => {
+        hf.textContent = weatherData[2][index][2];
+    });
+
+    hourlyForecastVariablesCollection[3].forEach((hf, index) => {
+        hf.textContent = weatherData[2][index][3];
+    });
+
+    // Updated Weekly Forecast variables 0
+    weeklyForecastVariablesCollection[0].forEach((wf, index) => {
+        wf.textContent = getWeatherSymbol(weatherData[3][index][0]);
+    });
+
+    weeklyForecastVariablesCollection[1].forEach((wf, index) => {
+        wf.textContent = weatherData[3][index][1];
+    });
+
+    weeklyForecastVariablesCollection[2].forEach((wf, index) => {
+        wf.textContent = weatherData[3][index][2].charAt(0).toUpperCase() + weatherData[3][index][2].slice(1);
+    });
+    
+    weeklyForecastVariablesCollection[3].forEach((wf, index) => {
+        wf.textContent = weatherData[3][index][3];
+    });
+
+    weeklyForecastVariablesCollection[4].forEach((wf, index) => {
+        wf.textContent = weatherData[3][index][4];
+    });
+
+    weeklyForecastVariablesCollection[5].forEach((wf, index) => {
+        wf.textContent = weatherData[3][index][5];
+    });
+
+    // Updated Weather Conditions variables
+    for (let i = 0; i < weatherData[4].length; i++) {
+        if (i !== 1) {
+            weatherConditionsVariablesCollection[i].textContent = weatherData[4][i];
+        } else {
+            rotateArrow(weatherData[4][i]);
+        }
     }
 }
 
@@ -266,102 +384,5 @@ function getWeatherSymbol(skyCondition) {
         return "🌨️";
     } else {
         return "❔";
-    }
-}
-
-// Updates the web app with the appropriate weather data
-async function updateWeather(weatherData) {
-    // Updated Navigation variables
-    if (!weatherData) return;
-    const newSavedLocation = document.createElement("li");
-    newSavedLocation.classList.add("saved_location");
-    locationHistory.prepend(newSavedLocation);
-    const newSLTopLeft = document.createElement("div");
-    newSLTopLeft.classList.add("sl_top_left");
-    newSavedLocation.append(newSLTopLeft);
-    const newSLCity = document.createElement("div");
-    newSLCity.classList.add("sl_city");
-    newSLCity.textContent = weatherData[0][0];
-    newSLTopLeft.append(newSLCity);
-    const newSLTime = document.createElement("div");
-    newSLTime.classList.add("sl_time");
-    newSLTime.textContent = weatherData[0][1];
-    newSLTopLeft.append(newSLTime);
-    const newSLTemp = document.createElement("div");
-    newSLTemp.classList.add("sl_temperature");
-    newSLTemp.textContent = weatherData[0][2];
-    newSavedLocation.append(newSLTemp);
-    const newSLSkyCondition = document.createElement("div");
-    newSLSkyCondition.classList.add("sl_sky_condition");
-    newSLSkyCondition.textContent = weatherData[0][3];
-    newSavedLocation.append(newSLSkyCondition);
-    const newSLHighLow = document.createElement("div");
-    newSLHighLow.classList.add("sl_high_low");
-    newSavedLocation.append(newSLHighLow);
-    const newSLHighTemp = document.createElement("div");
-    newSLHighTemp.classList.add("sl_high");
-    newSLHighTemp.textContent = weatherData[0][4];
-    newSLHighLow.append(newSLHighTemp);
-    const newSLLowTemp = document.createElement("div");
-    newSLLowTemp.classList.add("sl_low");
-    newSLLowTemp.textContent = weatherData[0][5];
-    newSLHighLow.append(newSLLowTemp);
-
-    // Returns weatherData[i] length  
-
-    // Updated Main Weather variables
-    for (let i = 0; i < weatherData[1].length; i++) {
-        mainWeatherVariablesCollection[i].textContent = weatherData[1][i];
-    }
-
-    // Updated Hourly Forecast variables 1
-    hourlyForecastVariablesCollection[0].forEach((hf, index) => {
-        hf.textContent = weatherData[2][index][0];
-    });
-    
-    hourlyForecastVariablesCollection[1].forEach((hf, index) => {
-        hf.textContent = getWeatherSymbol(weatherData[2][index][1]);
-    });
-
-    hourlyForecastVariablesCollection[2].forEach((hf, index) => {
-        hf.textContent = weatherData[2][index][2];
-    });
-
-    hourlyForecastVariablesCollection[3].forEach((hf, index) => {
-        hf.textContent = weatherData[2][index][3];
-    });
-
-    // Updated Weekly Forecast variables 0
-    weeklyForecastVariablesCollection[0].forEach((wf, index) => {
-        wf.textContent = getWeatherSymbol(weatherData[3][index][0]);
-    });
-
-    weeklyForecastVariablesCollection[1].forEach((wf, index) => {
-        wf.textContent = weatherData[3][index][1];
-    });
-
-    weeklyForecastVariablesCollection[2].forEach((wf, index) => {
-        wf.textContent = weatherData[3][index][2].charAt(0).toUpperCase() + weatherData[3][index][2].slice(1);
-    });
-    
-    weeklyForecastVariablesCollection[3].forEach((wf, index) => {
-        wf.textContent = weatherData[3][index][3];
-    });
-
-    weeklyForecastVariablesCollection[4].forEach((wf, index) => {
-        wf.textContent = weatherData[3][index][4];
-    });
-
-    weeklyForecastVariablesCollection[5].forEach((wf, index) => {
-        wf.textContent = weatherData[3][index][5];
-    });
-
-    // Updated Weather Conditions variables
-    for (let i = 0; i < weatherData[4].length; i++) {
-        if (i !== 1) {
-            weatherConditionsVariablesCollection[i].textContent = weatherData[4][i];
-        } else {
-            rotateArrow(weatherData[4][i]);
-        }
     }
 }
