@@ -64,7 +64,7 @@ search.addEventListener("keydown", async (event) => {
             alert("An empty search field is not allowed!");
         } else {
             const weatherData = await fetchWeather();
-            updateWeather(weatherData);
+            await updateWeather(weatherData);
         }
     }
 });
@@ -82,6 +82,14 @@ async function fetchWeather() {
 
         // Fetches weather data and prints it out
         const getForecastWeather = await fetch(forecastWeatherAPI);
+        if (!getForecastWeather.ok) {
+            if (getForecastWeather.status === 400) {
+                alert("The city could not be found, please enter a valid city name.");
+            } else {
+                alert("Could not fetch weather data, please try again later.");
+            }
+            return; // Exit the function early if there's an error
+        }
         const getForecastWeatherJSON = await getForecastWeather.json();
         console.log(getForecastWeatherJSON);
 
@@ -91,22 +99,16 @@ async function fetchWeather() {
         const savedLocation = [];
         const fetchSavedCity = getForecastWeatherJSON.location.name;
         savedLocation.push(fetchSavedCity);
-        console.log("City: " + fetchSavedCity);
         const fetchSavedTime = convertTimeFormat(getForecastWeatherJSON.location.localtime.split(" ")[1]);
         savedLocation.push(fetchSavedTime);
-        console.log("Time: " + fetchSavedTime);
         const fetchSavedTemp = Math.round(getForecastWeatherJSON.current.temp_f);
         savedLocation.push(fetchSavedTemp);
-        console.log("Temperature: " + fetchSavedTemp);
         const fetchSavedSkyCondition = getForecastWeatherJSON.current.condition.text;
         savedLocation.push(fetchSavedSkyCondition);
-        console.log("Sky Condition: " + fetchSavedSkyCondition);
         const fetchSavedHighTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.maxtemp_f);
         savedLocation.push(fetchSavedHighTemp);
-        console.log("High: " + fetchSavedHighTemp);
         const fetchSavedLowTemp = Math.round(getForecastWeatherJSON.forecast.forecastday[0].day.mintemp_f);
         savedLocation.push(fetchSavedLowTemp);
-        console.log("Low: " + fetchSavedLowTemp);
         savedLocationCollection.push(savedLocation);
 
         console.log("MAIN WEATHER VARIABLES:");
@@ -116,7 +118,6 @@ async function fetchWeather() {
         mainWeather.push(fetchSavedSkyCondition);
         const fetchMainFeelsLike = Math.round(getForecastWeatherJSON.current.feelslike_f);
         mainWeather.push(fetchMainFeelsLike);
-        console.log("Feels like: " + fetchMainFeelsLike);
         mainWeather.push(fetchSavedHighTemp);
         mainWeather.push(fetchSavedLowTemp);
         savedLocationCollection.push(mainWeather);
@@ -158,20 +159,15 @@ async function fetchWeather() {
             // The first date index returns "Today" instead of a day of the week
             const fetchWFSkyCondition = wfIntro[i].day.condition.text.toLowerCase().trim();
             weeklyForecast.push(fetchWFSkyCondition);
-            console.log("Weekly Sky Condition: " + fetchWFSkyCondition);
             const fetchWFDay = i != 0 ? getDayOfTheWeek(wfIntro[i].date) : "Today";
             weeklyForecast.push(fetchWFDay);
-            console.log("Weekly Day: " + fetchWFDay);
             weeklyForecast.push(fetchWFSkyCondition);
             const fetchWFPrec = Math.round(Math.max(wfIntro[i].day.daily_chance_of_rain, wfIntro[i].day.daily_chance_of_snow));
             weeklyForecast.push(fetchWFPrec);
-            console.log("Weekly Precipitation: " + fetchWFPrec);
             const fetchWFHighTemp = Math.round(wfIntro[i].day.maxtemp_f);
             weeklyForecast.push(fetchWFHighTemp);
-            console.log("Weekly High: " + fetchWFHighTemp);
             const fetchWFLowTemp = Math.round(wfIntro[i].day.mintemp_f);
             weeklyForecast.push(fetchWFLowTemp);
-            console.log("Weekly Low: " + fetchWFLowTemp);
             weeklyForecastCollection.push(weeklyForecast);
         }
         savedLocationCollection.push(weeklyForecastCollection);
@@ -182,28 +178,24 @@ async function fetchWeather() {
         weatherConditions.push(fetchWindSpeed);
         const fetchWindDirection = getForecastWeatherJSON.current.wind_dir;
         weatherConditions.push(fetchWindDirection);
-        console.log(`Wind: ${fetchWindSpeed}mph | Direction: ${fetchWindDirection}`);
         const fetchHumidity = getForecastWeatherJSON.current.humidity;
         weatherConditions.push(fetchHumidity);
-        console.log(`Humidity: ${fetchHumidity}%`);
         const fetchUVI = getForecastWeatherJSON.current.uv;
         weatherConditions.push(fetchUVI);
-        console.log(`UVI: ${fetchUVI}`);
         const fetchPressure = getForecastWeatherJSON.current.pressure_in;
         weatherConditions.push(fetchPressure);
-        console.log(`Pressure: ${fetchPressure}inHg`);
         const fetchSunriseTime = getForecastWeatherJSON.forecast.forecastday[0].astro.sunrise.split(" ")[0];
         weatherConditions.push(fetchSunriseTime);
         const fetchSunsetTime = getForecastWeatherJSON.forecast.forecastday[0].astro.sunset.split(" ")[0];
         weatherConditions.push(fetchSunsetTime);
-        console.log(`Sunrise: ${fetchSunriseTime} | Sunset: ${fetchSunsetTime}`);
         savedLocationCollection.push(weatherConditions);
         savedLocationsCollection.push(savedLocationCollection);
         console.log(savedLocationCollection);
         console.log(savedLocationsCollection);
         return savedLocationCollection;
     } catch (error) {
-        console.error("ERROR: " + error);
+        console.log("ERROR: " + error);
+        alert("An error occurred while fetching weather data");
     }
 }
 
@@ -219,7 +211,7 @@ function convertTimeFormat(originalTime) {
     return `${hours}:${minutes} ${unit}`;
 }
 
-// 8:54 PM
+// Same as the function above but without the minutes
 function convertTimeFormatShort(originalTime) {
     let hours = Math.ceil(originalTime.split(":").join("."));
     let unit = hours < 12 ? "AM" : "PM";
@@ -241,6 +233,7 @@ function getDayOfTheWeek(originalDate) {
     return daysOfTheWeek[newDate.getDay()];
 }
 
+// Changes rotates arrow based on wind direction
 function rotateArrow(windDirection) {
     const directions = ["N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW"];
     directions.forEach((value, index) => {
@@ -251,6 +244,7 @@ function rotateArrow(windDirection) {
     });
 }
 
+// Returns weather emojis based on the sky condition
 function getWeatherSymbol(skyCondition) {
     if (skyCondition.includes("thunder")) {
         return "⛈️";
@@ -275,8 +269,10 @@ function getWeatherSymbol(skyCondition) {
     }
 }
 
-function updateWeather(weatherData) {
+// Updates the web app with the appropriate weather data
+async function updateWeather(weatherData) {
     // Updated Navigation variables
+    if (!weatherData) return;
     const newSavedLocation = document.createElement("li");
     newSavedLocation.classList.add("saved_location");
     locationHistory.prepend(newSavedLocation);
