@@ -1,7 +1,5 @@
 // Navigation variables
 const search = document.querySelector("#search_location");
-const savedLocations = document.querySelectorAll(".saved_location");
-const firstSavedLocation = document.querySelector(".saved_location");
 const locationHistory = document.querySelector(".location_history");
 
 // Saved Locations variables
@@ -70,11 +68,22 @@ search.addEventListener("keydown", async (event) => {
                 await updateWeather(weatherData);
                 search.value = "";
             } catch (error) {
-                console.log(error);
+                console.error(error);
                 search.value = "";
                 return;
             }
         }
+    }
+});
+
+// Selects saved location when clicked on
+document.addEventListener("click", (event) => {
+    const savedLocations = document.querySelectorAll(".saved_location");
+    if (event.target.tagName === "LI") {
+        savedLocations.forEach(sl => {
+            sl.classList.remove("selected");
+        });
+        event.target.classList.add("selected");
     }
 });
 
@@ -199,29 +208,27 @@ async function fetchWeather() {
         console.log(savedLocationsCollection);
         return savedLocationCollection;
     } catch (error) {
-        console.log("ERROR: " + error);
+        console.error("ERROR: " + error);
         alert("An error occurred while fetching weather data");
     }
 }
 
-// Makes the saved weather location accessible
-locationHistory.addEventListener("click", (event) => {
-    if (event.target.tagName === "LI") {
-        // Get all current list items
-        const items = Array.from(locationHistory.children);  
-        // Find the index of the clicked item
-        const index = items.indexOf(event.target); 
-        //updateExistingSavedLocation(savedLocationVariablesCollection[index]);
-        updateWeather(savedLocationsCollection[index]);
-        console.log(index);
-    }
-});
-
-// Updates the web app with the appropriate weather data
+// Creates a new saved location
 async function updateNewSavedLocation(weatherData) {
+    const firstSavedLocation = document.querySelector(".saved_location");
+    if (firstSavedLocation != null) firstSavedLocation.classList.remove("selected");
+
     const newSavedLocation = document.createElement("li");
     newSavedLocation.classList.add("saved_location");
+    newSavedLocation.setAttribute("tabindex", "0");
+    newSavedLocation.classList.add("selected");
     locationHistory.prepend(newSavedLocation);
+
+    // Makes the saved weather location accessible
+    newSavedLocation.addEventListener("click", () => {
+        updateWeather(weatherData);
+    });
+
     const newSLTopLeft = document.createElement("div");
     newSLTopLeft.classList.add("sl_top_left");
     newSavedLocation.append(newSLTopLeft);
@@ -251,21 +258,17 @@ async function updateNewSavedLocation(weatherData) {
     const newSLLowTemp = document.createElement("div");
     newSLLowTemp.classList.add("sl_low");
     newSLLowTemp.textContent = weatherData[0][5];
-    newSLHighLow.append(newSLLowTemp); 
+    newSLHighLow.append(newSLLowTemp);
 }
-/* async function updateExistingSavedLocation(weatherData) {
-    // Updated Saved Location variables
-    for (let i = 0; i < weatherData[0].length; i++) {
-        savedLocationVariablesCollection[i].textContent = weatherData[0][i];
-    }
-} */
+
+// Updates weather to the appropriate location
 async function updateWeather(weatherData) {
     // Updated Main Weather variables
     for (let i = 0; i < weatherData[1].length; i++) {
         mainWeatherVariablesCollection[i].textContent = weatherData[1][i];
     }
 
-    // Updated Hourly Forecast variables 1
+    // Updated Hourly Forecast variables
     hourlyForecastVariablesCollection[0].forEach((hf, index) => {
         hf.textContent = weatherData[2][index][0];
     });
@@ -282,7 +285,7 @@ async function updateWeather(weatherData) {
         hf.textContent = weatherData[2][index][3];
     });
 
-    // Updated Weekly Forecast variables 0
+    // Updated Weekly Forecast variables
     weeklyForecastVariablesCollection[0].forEach((wf, index) => {
         wf.textContent = getWeatherSymbol(weatherData[3][index][0]);
     });
