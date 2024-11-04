@@ -52,9 +52,24 @@ const weeklyForecastVariablesCollection = [wfSymbol, wfDay, wfSkyCondition, wfPr
 const weatherConditionsVariablesCollection = [windNumber, windArrow, humidityNumber, uviNumber, pressureNumber, sunriseNumber, sunsetNumber]
 
 // Weather API variables
-const WEATHER_API_KEY = "2a0265e0ff8f4b72881145040242110";
+const WEATHER_API_KEY = "415dba4204da459baab192604240411";
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
+document.addEventListener("DOMContentLoaded", function () {
+    // Fetch the IP address from the API
+    fetch("https://api.ipify.org?format=json")
+        .then(response => response.json())
+        .then(data => userIP = data.ip)
+        .then(ip => search.value = ip)
+        .then(ip2weather => fetchWeather(ip2weather))
+        .then(weather => {
+            updateNewSavedLocation(weather);
+            updateWeather(weather);
+        })
+        .catch(error => console.error("Error fetching IP address:", error))
+        .finally(() => search.value = "");
+});
+    
 // Updates weather app on location search
 search.addEventListener("keydown", async (event) => {
     if (event.key === "Enter") {
@@ -62,7 +77,7 @@ search.addEventListener("keydown", async (event) => {
             alert("An empty search field is not allowed!");
         } else {
             try {
-                const weatherData = await fetchWeather();
+                const weatherData = await fetchWeather(search.value);
                 if (!weatherData) throw new Error("Failed to fetch weather data.");
                 await updateNewSavedLocation(weatherData);
                 await updateWeather(weatherData);
@@ -88,10 +103,11 @@ document.addEventListener("click", (event) => {
 });
 
 // Fetches weather data and presents it to the user
-async function fetchWeather() {
+async function fetchWeather(input) {
     try {
         // Stores the location inputted by the user
-        const location = search.value;
+        const location = input;
+        console.log(location);
         
         // Creates variable for the weather API
         const forecastWeatherAPI = new URL(WEATHER_API_URL + "?key=" + WEATHER_API_KEY);
@@ -205,7 +221,6 @@ async function fetchWeather() {
         savedLocationCollection.push(weatherConditions);
         savedLocationsCollection.push(savedLocationCollection);
         console.log(savedLocationCollection);
-        console.log(savedLocationsCollection);
         return savedLocationCollection;
     } catch (error) {
         console.error("ERROR: " + error);
