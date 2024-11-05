@@ -60,7 +60,6 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("https://api.ipify.org?format=json")
         .then(response => response.json())
         .then(data => userIP = data.ip)
-        .then(ip => search.value = ip)
         .then(ip2weather => fetchWeather(ip2weather))
         .then(weather => {
             updateNewSavedLocation(weather);
@@ -88,17 +87,6 @@ search.addEventListener("keydown", async (event) => {
                 return;
             }
         }
-    }
-});
-
-// Selects saved location when clicked on
-document.addEventListener("click", (event) => {
-    const savedLocations = document.querySelectorAll(".saved_location");
-    if (event.target.tagName === "LI") {
-        savedLocations.forEach(sl => {
-            sl.classList.remove("selected");
-        });
-        event.target.classList.add("selected");
     }
 });
 
@@ -236,12 +224,13 @@ async function updateNewSavedLocation(weatherData) {
     const newSavedLocation = document.createElement("li");
     newSavedLocation.classList.add("saved_location");
     newSavedLocation.setAttribute("tabindex", "0");
-    newSavedLocation.classList.add("selected");
     locationHistory.prepend(newSavedLocation);
+    resetFocus(newSavedLocation);
 
     // Makes the saved weather location accessible
     newSavedLocation.addEventListener("click", () => {
         updateWeather(weatherData);
+        resetFocus(newSavedLocation);
     });
 
     const newSLTopLeft = document.createElement("div");
@@ -403,4 +392,12 @@ function getWeatherSymbol(skyCondition) {
     } else {
         return "❔";
     }
+}
+
+function resetFocus(location) {
+    const savedLocations = document.querySelectorAll(".saved_location");
+    savedLocations.forEach(sl => {
+        sl.classList.remove("selected");
+    });
+        location.classList.add("selected");
 }
