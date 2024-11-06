@@ -1,6 +1,8 @@
 // Navigation variables
 const search = document.querySelector("#search_location");
 const locationHistory = document.querySelector(".location_history");
+const manageLocations = document.querySelector(".manage_locations");
+const manageNav = document.querySelector(".manage_nav");
 
 // Saved Locations variables
 const slCity = document.querySelector(".sl_city");
@@ -44,7 +46,7 @@ const sunriseNumber = document.querySelectorAll(".number")[4];
 const sunsetNumber = document.querySelectorAll(".number")[5];
 
 // Array Weather variables
-const savedCities = [];
+let savedCities = [];
 const savedLocationVariablesCollection = [slCity, slTime, slTemp, slSkyCondition, slHighTemp, slLowTemp];
 const mainWeatherVariablesCollection = [mwCity, mwTemp, mwSkyCondition, mwFeelsLike, mwHighTemp, mwLowTemp];
 const hourlyForecastVariablesCollection = [hfTime, hfSymbol, hfTemp, hfPrec];
@@ -88,6 +90,36 @@ search.addEventListener("keydown", async (event) => {
             }
         }
     }
+});
+
+manageLocations.addEventListener("click", () => {
+    manageLocations.style.display = "none";
+    const clear = document.createElement("button");
+    clear.setAttribute("type", "button");
+    clear.classList.add("clear");
+    clear.textContent = "Clear";
+    manageNav.append(clear);
+    const finish = document.createElement("button");
+    finish.setAttribute("type", "button");
+    finish.classList.add("finish");
+    finish.textContent = "Finish";
+    manageNav.append(finish);
+
+    clear.addEventListener("click", () => {
+        // Clears all saved locations
+        locationHistory.innerHTML = "";
+        // Clears all cities from array
+        savedCities = [];
+        finish.style.display = "none";
+        clear.style.display = "none";
+        manageLocations.style.display = "block";
+    });
+
+    finish.addEventListener("click", () => {
+        finish.style.display = "none";
+        clear.style.display = "none";
+        manageLocations.style.display = "block";
+    });
 });
 
 // Fetches weather data and presents it to the user
@@ -225,6 +257,8 @@ async function fetchWeather(input) {
 // Creates a new saved location
 async function updateNewSavedLocation(weatherData) {
     const firstSavedLocation = document.querySelector(".saved_location");
+    
+    // Avoids applying selected to a saved location that doesn't exist yet
     if (firstSavedLocation != null) firstSavedLocation.classList.remove("selected");
 
     const newSavedLocation = document.createElement("li");
@@ -250,6 +284,10 @@ async function updateNewSavedLocation(weatherData) {
             }
         });
     });
+
+    /* for (let i = 0; i < weatherData[0].length; i++) {
+        savedLocationVariablesCollection[i].textContent = weatherData[0][i];
+    } */
 
     const newSLTopLeft = document.createElement("div");
     newSLTopLeft.classList.add("sl_top_left");

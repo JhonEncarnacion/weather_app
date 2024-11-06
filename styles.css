@@ -53,7 +53,7 @@ nav {
     margin: 15px 0px;
     border-radius: 30px;
     background-color: var(--dark_blue);
-    width: 100%;
+    width: inherit;
 }
 
 .search_icon {
@@ -91,7 +91,7 @@ nav {
     border-radius: var(--rounded_corners);
     padding: var(--normal_spacing);
     padding-top: 10px;
-    width: 100%;
+    width: inherit;
     background-color: var(--dark_blue);
     cursor: pointer;
 }
@@ -147,6 +147,64 @@ nav {
 
 .sl_low::after {
     content:"\00b0";
+}
+
+.manage_nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: var(--normal_spacing);
+    width: inherit;
+}
+
+.manage_locations {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    border: none;
+    background-color: var(--dark_blue);
+    border-radius: var(--rounded_corners);
+    padding: var(--normal_spacing);
+    color: var(--very_light_transparent);
+    border-radius: var(--rounded_corners);
+    font-size: 1rem;
+}
+
+.clear {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    border: none;
+    background-color: var(--dark_blue);
+    border-radius: var(--rounded_corners);
+    padding: var(--normal_spacing);
+    color: var(--very_light_transparent);
+    border-radius: var(--rounded_corners);
+    font-size: 1rem;
+}
+
+.finish {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: inherit;
+    border: none;
+    background-color: var(--dark_blue);
+    border-radius: var(--rounded_corners);
+    padding: var(--normal_spacing);
+    color: var(--very_light_transparent);
+    border-radius: var(--rounded_corners);
+    font-size: 1rem;
+}
+
+.manage_locations:hover, .clear:hover, .finish:hover {
+    background-color: var(--medium_blue);
 }
 
 main {
