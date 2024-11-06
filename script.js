@@ -44,7 +44,7 @@ const sunriseNumber = document.querySelectorAll(".number")[4];
 const sunsetNumber = document.querySelectorAll(".number")[5];
 
 // Array Weather variables
-const savedLocationsCollection = [];
+const savedCities = [];
 const savedLocationVariablesCollection = [slCity, slTime, slTemp, slSkyCondition, slHighTemp, slLowTemp];
 const mainWeatherVariablesCollection = [mwCity, mwTemp, mwSkyCondition, mwFeelsLike, mwHighTemp, mwLowTemp];
 const hourlyForecastVariablesCollection = [hfTime, hfSymbol, hfTemp, hfPrec];
@@ -115,11 +115,18 @@ async function fetchWeather(input) {
         const getForecastWeatherJSON = await getForecastWeather.json();
         console.log(getForecastWeatherJSON);
 
-        // Stores JSON weather data and prints them out
+        // Stores JSON weather data
         // SAVED LOCATIONS VARIABLES
         const savedLocationCollection = [];
         const savedLocation = [];
         const fetchSavedCity = getForecastWeatherJSON.location.name;
+        savedCities.forEach(sc => {
+            if (sc === fetchSavedCity) {
+                throw new Error("This location is already saved. Search for a different one.");
+            }
+        });
+        console.log(savedCities);
+        savedCities.push(fetchSavedCity);
         savedLocation.push(fetchSavedCity);
         const fetchSavedTime = convertTimeFormat(getForecastWeatherJSON.location.localtime.split(" ")[1]);
         savedLocation.push(fetchSavedTime);
@@ -207,7 +214,6 @@ async function fetchWeather(input) {
         const fetchSunsetTime = getForecastWeatherJSON.forecast.forecastday[0].astro.sunset.split(" ")[0];
         weatherConditions.push(fetchSunsetTime);
         savedLocationCollection.push(weatherConditions);
-        savedLocationsCollection.push(savedLocationCollection);
         console.log(savedLocationCollection);
         return savedLocationCollection;
     } catch (error) {
@@ -231,6 +237,18 @@ async function updateNewSavedLocation(weatherData) {
     newSavedLocation.addEventListener("click", () => {
         updateWeather(weatherData);
         resetFocus(newSavedLocation);
+    });
+
+    // Makes the saved location hoverable
+    newSavedLocation.addEventListener("mouseenter", () => {
+        if (!newSavedLocation.classList.contains("selected")) {
+            newSavedLocation.classList.add("hovered");
+        }
+        newSavedLocation.addEventListener("mouseleave", () => {
+            if (newSavedLocation.classList.contains("hovered")) {
+                newSavedLocation.classList.remove("hovered");
+            }
+        });
     });
 
     const newSLTopLeft = document.createElement("div");
@@ -394,6 +412,7 @@ function getWeatherSymbol(skyCondition) {
     }
 }
 
+// Manages the selection color of saved locations
 function resetFocus(location) {
     const savedLocations = document.querySelectorAll(".saved_location");
     savedLocations.forEach(sl => {
