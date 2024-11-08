@@ -46,7 +46,6 @@ const sunriseNumber = document.querySelectorAll(".number")[4];
 const sunsetNumber = document.querySelectorAll(".number")[5];
 
 // Array Weather variables
-let savedCities = [];
 const savedLocationVariablesCollection = [slCity, slTime, slTemp, slSkyCondition, slHighTemp, slLowTemp];
 const mainWeatherVariablesCollection = [mwCity, mwTemp, mwSkyCondition, mwFeelsLike, mwHighTemp, mwLowTemp];
 const hourlyForecastVariablesCollection = [hfTime, hfSymbol, hfTemp, hfPrec];
@@ -57,6 +56,7 @@ const weatherConditionsVariablesCollection = [windNumber, windArrow, humidityNum
 const WEATHER_API_KEY = "415dba4204da459baab192604240411";
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
+// Shows the weather of the user's current location on load
 document.addEventListener("DOMContentLoaded", function () {
     // Fetch the IP address from the API
     fetch("https://api.ipify.org?format=json")
@@ -92,8 +92,18 @@ search.addEventListener("keydown", async (event) => {
     }
 });
 
+// Controls deletion of saved locations
 manageLocations.addEventListener("click", () => {
     manageLocations.style.display = "none";
+    search.style.display = "none";
+    
+    const deleteIcons = document.querySelectorAll(".delete_icon");
+    deleteIcons.forEach(di => {
+        di.style.display = "block";
+        di.addEventListener("click", () => {
+            di.parentElement.remove();
+        });
+    });
     const clear = document.createElement("button");
     clear.setAttribute("type", "button");
     clear.classList.add("clear");
@@ -109,16 +119,20 @@ manageLocations.addEventListener("click", () => {
         // Clears all saved locations
         locationHistory.innerHTML = "";
         // Clears all cities from array
-        savedCities = [];
         finish.style.display = "none";
         clear.style.display = "none";
         manageLocations.style.display = "block";
+        search.style.display = "block";
     });
 
     finish.addEventListener("click", () => {
         finish.style.display = "none";
         clear.style.display = "none";
         manageLocations.style.display = "block";
+        search.style.display = "block";
+        deleteIcons.forEach(di => {
+            di.style.display = "none";
+        });
     });
 });
 
@@ -152,13 +166,10 @@ async function fetchWeather(input) {
         const savedLocationCollection = [];
         const savedLocation = [];
         const fetchSavedCity = getForecastWeatherJSON.location.name;
-        savedCities.forEach(sc => {
-            if (sc === fetchSavedCity) {
-                throw new Error("This location is already saved. Search for a different one.");
-            }
-        });
-        console.log(savedCities);
-        savedCities.push(fetchSavedCity);
+        // Throws error if location is already saved
+        if (checkDuplicates(fetchSavedCity) === true) {
+            throw new Error("This location is already saved. Search for a different one.");
+        }
         savedLocation.push(fetchSavedCity);
         const fetchSavedTime = convertTimeFormat(getForecastWeatherJSON.location.localtime.split(" ")[1]);
         savedLocation.push(fetchSavedTime);
@@ -257,14 +268,17 @@ async function fetchWeather(input) {
 // Creates a new saved location
 async function updateNewSavedLocation(weatherData) {
     const firstSavedLocation = document.querySelector(".saved_location");
-    
     // Avoids applying selected to a saved location that doesn't exist yet
     if (firstSavedLocation != null) firstSavedLocation.classList.remove("selected");
 
+    const newSavedLocationContainer = document.createElement("div");
+    newSavedLocationContainer.classList.add("sl_container");
+    locationHistory.prepend(newSavedLocationContainer);
+    
     const newSavedLocation = document.createElement("li");
     newSavedLocation.classList.add("saved_location");
     newSavedLocation.setAttribute("tabindex", "0");
-    locationHistory.prepend(newSavedLocation);
+    newSavedLocationContainer.append(newSavedLocation);
     resetFocus(newSavedLocation);
 
     // Makes the saved weather location accessible
@@ -288,7 +302,7 @@ async function updateNewSavedLocation(weatherData) {
     /* for (let i = 0; i < weatherData[0].length; i++) {
         savedLocationVariablesCollection[i].textContent = weatherData[0][i];
     } */
-
+    
     const newSLTopLeft = document.createElement("div");
     newSLTopLeft.classList.add("sl_top_left");
     newSavedLocation.append(newSLTopLeft);
@@ -319,58 +333,55 @@ async function updateNewSavedLocation(weatherData) {
     newSLLowTemp.classList.add("sl_low");
     newSLLowTemp.textContent = weatherData[0][5];
     newSLHighLow.append(newSLLowTemp);
+    const deleteIcon = document.createElement("img");
+    deleteIcon.classList.add("delete_icon");
+    deleteIcon.setAttribute("src", "Icons/delete.svg");
+    deleteIcon.setAttribute("alt", "Delete Icon");
+    newSavedLocationContainer.append(deleteIcon);
 }
 
 // Updates weather to the appropriate location
 async function updateWeather(weatherData) {
-    // Updated Main Weather variables
+    // Updates Main Weather variables
     for (let i = 0; i < weatherData[1].length; i++) {
         mainWeatherVariablesCollection[i].textContent = weatherData[1][i];
     }
 
-    // Updated Hourly Forecast variables
+    // Updates Hourly Forecast variables
     hourlyForecastVariablesCollection[0].forEach((hf, index) => {
         hf.textContent = weatherData[2][index][0];
     });
-    
     hourlyForecastVariablesCollection[1].forEach((hf, index) => {
         hf.textContent = getWeatherSymbol(weatherData[2][index][1]);
     });
-
     hourlyForecastVariablesCollection[2].forEach((hf, index) => {
         hf.textContent = weatherData[2][index][2];
     });
-
     hourlyForecastVariablesCollection[3].forEach((hf, index) => {
         hf.textContent = weatherData[2][index][3];
     });
 
-    // Updated Weekly Forecast variables
+    // Updates Weekly Forecast variables
     weeklyForecastVariablesCollection[0].forEach((wf, index) => {
         wf.textContent = getWeatherSymbol(weatherData[3][index][0]);
     });
-
     weeklyForecastVariablesCollection[1].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][1];
     });
-
     weeklyForecastVariablesCollection[2].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][2].charAt(0).toUpperCase() + weatherData[3][index][2].slice(1);
     });
-    
     weeklyForecastVariablesCollection[3].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][3];
     });
-
     weeklyForecastVariablesCollection[4].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][4];
     });
-
     weeklyForecastVariablesCollection[5].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][5];
     });
 
-    // Updated Weather Conditions variables
+    // Updates Weather Conditions variables
     for (let i = 0; i < weatherData[4].length; i++) {
         if (i !== 1) {
             weatherConditionsVariablesCollection[i].textContent = weatherData[4][i];
@@ -456,5 +467,16 @@ function resetFocus(location) {
     savedLocations.forEach(sl => {
         sl.classList.remove("selected");
     });
-        location.classList.add("selected");
+    location.classList.add("selected");
+}
+
+// Checks if the searched location is already saved
+function checkDuplicates(location) {
+    const savedLocations = document.querySelectorAll(".saved_location .sl_city");
+    for (const sl of savedLocations) {
+        if (sl.textContent === location) {
+            return true;
+        }
+    }
+    return false;
 }
