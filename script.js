@@ -299,10 +299,6 @@ async function updateNewSavedLocation(weatherData) {
         });
     });
 
-    /* for (let i = 0; i < weatherData[0].length; i++) {
-        savedLocationVariablesCollection[i].textContent = weatherData[0][i];
-    } */
-    
     const newSLTopLeft = document.createElement("div");
     newSLTopLeft.classList.add("sl_top_left");
     newSavedLocation.append(newSLTopLeft);
@@ -352,7 +348,7 @@ async function updateWeather(weatherData) {
         hf.textContent = weatherData[2][index][0];
     });
     hourlyForecastVariablesCollection[1].forEach((hf, index) => {
-        hf.textContent = getWeatherSymbol(weatherData[2][index][1]);
+        hf.textContent = getWeatherSymbol(weatherData[2][index][1], weatherData[4][6]);
     });
     hourlyForecastVariablesCollection[2].forEach((hf, index) => {
         hf.textContent = weatherData[2][index][2];
@@ -363,7 +359,7 @@ async function updateWeather(weatherData) {
 
     // Updates Weekly Forecast variables
     weeklyForecastVariablesCollection[0].forEach((wf, index) => {
-        wf.textContent = getWeatherSymbol(weatherData[3][index][0]);
+        wf.textContent = getWeatherSymbol(weatherData[3][index][0], weatherData[4][6]);
     });
     weeklyForecastVariablesCollection[1].forEach((wf, index) => {
         wf.textContent = weatherData[3][index][1];
@@ -437,18 +433,14 @@ function rotateArrow(windDirection) {
 }
 
 // Returns weather emojis based on the sky condition
-function getWeatherSymbol(skyCondition) {
+function getWeatherSymbol(skyCondition, sunset) {
     if (skyCondition.includes("thunder")) {
         return "⛈️";
     } else if (skyCondition.includes("sunny")) {
         return "☀️";
     } else if (skyCondition.includes("clear")) {
         return "🌙";
-    } else if (skyCondition.includes("partly cloudy")) {
-        return "🌤️";
-    } else if (skyCondition.includes("cloudy")) {
-        return "⛅";
-    } else if (skyCondition.includes("overcast")) {
+    } else if (skyCondition.includes("overcast") || skyCondition.includes("cloudy")) {
         return "☁️";
     } else if (skyCondition.includes("fog") || skyCondition.includes("mist")) {
         return "🌫️";
