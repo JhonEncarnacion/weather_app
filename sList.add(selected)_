@@ -1,0 +1,95 @@
+[33mcommit fbea99e6ee65e3f09d601c4a6a85c5fd03419b9c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sun Nov 3 15:04:29 2024 -0500
+
+    Updates focus on saved locations after clicking on them and creating new ones.
+
+[33mcommit 6f11f0136b68c03f9a1009f3ba25c60b09444f51[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Nov 2 18:21:26 2024 -0400
+
+    Fixed city lookup error when couldn't be found, emptied location history, created seperate functions for handling saved locations.
+
+[33mcommit 911a55a52d02013653d940a16c4acfe5cfafbcb5[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Nov 2 11:38:43 2024 -0400
+
+    Added error handling for improper inputs
+
+[33mcommit 8972831b6d5855d04d9ff8015d6514f5b454ebc8[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Nov 2 10:17:28 2024 -0400
+
+    Displays all appropriate weather data collected by the api
+
+[33mcommit 71cfd4b39cbcf65dcbeb8dfbbe5eb5a59371efbd[m
+Author: Zato <zatoman@gmail.com>
+Date:   Mon Oct 28 18:33:52 2024 -0400
+
+    Rotates arrow based on wind direction
+
+[33mcommit fd7cd7c99ece2e0a3608a64351f6809cbeabef8d[m
+Author: Zato <zatoman@gmail.com>
+Date:   Mon Oct 28 17:12:24 2024 -0400
+
+    Completed fetching weekly forecast data
+
+[33mcommit f201cfb48fba31c8c1a1186632d07d2bbcf49e81[m
+Author: Zato <zatoman@gmail.com>
+Date:   Mon Oct 28 14:12:59 2024 -0400
+
+    Created functions to convert the time format and get the day of the week. Also, I saved data from each hour of hourly forecast in an array.
+
+[33mcommit bb5e6f8f26183a6a13323c492adfed40f5c075f2[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Oct 26 10:35:11 2024 -0400
+
+    Saves and prints out weather data for the searched city
+
+[33mcommit fa19efbe94a02e15f1c2f6d0ad492af0a7ea2b20[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sun Oct 20 17:41:23 2024 -0400
+
+    Completed weather conditions
+
+[33mcommit 77102cc0722973ea1bf9a0ad75265431f4c3a3db[m
+Author: Zato <zatoman@gmail.com>
+Date:   Fri Oct 18 14:10:50 2024 -0400
+
+    Completed the weekly forecast
+
+[33mcommit 462a2f74c2a709760eefee7fab609b2307c3a412[m
+Author: Zato <zatoman@gmail.com>
+Date:   Wed Oct 16 16:12:08 2024 -0400
+
+    Competed the hourly forecast
+
+[33mcommit 735f203383fc3a1f26ff1ae01e2763d897a4eebf[m
+Author: Zato <zatoman@gmail.com>
+Date:   Tue Oct 15 13:24:10 2024 -0400
+
+    Created extra space around the space bar
+
+[33mcommit 26570bcfdb21289bd9f34176c9d93dfe0e79f8d1[m
+Author: Zato <zatoman@gmail.com>
+Date:   Mon Oct 14 19:24:04 2024 -0400
+
+    Decreased spacing on nav bar items
+
+[33mcommit c83a80692d5cd73d1577248242991bf4cd12ecab[m
+Author: Zato <zatoman@gmail.com>
+Date:   Mon Oct 14 18:58:35 2024 -0400
+
+    Completed nav bar
+
+[33mcommit d2614b4b08966a099c6b181e10e669bd3dc2648e[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Oct 12 16:48:40 2024 -0400
+
+    Search bar created
+
+[33mcommit 6aa3c95f98e4c810a58c72931c8103eabbbcf753[m
+Author: Zato <zatoman@gmail.com>
+Date:   Sat Oct 12 14:33:50 2024 -0400
+
+    First version of HTML file

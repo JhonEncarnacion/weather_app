@@ -53,7 +53,7 @@ const weeklyForecastVariablesCollection = [wfSymbol, wfDay, wfSkyCondition, wfPr
 const weatherConditionsVariablesCollection = [windNumber, windArrow, humidityNumber, uviNumber, pressureNumber, sunriseNumber, sunsetNumber]
 
 // Weather API variables
-const WEATHER_API_KEY = "415dba4204da459baab192604240411";
+const WEATHER_API_KEY = "8ec451d5bddd41ba9eb21038252004";
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
 // Shows the weather of the user's current location on load
@@ -441,7 +441,7 @@ function getWeatherSymbol(skyCondition, sunset) {
     } else if (skyCondition.includes("clear")) {
         return "🌙";
     } else if (skyCondition.includes("overcast") || skyCondition.includes("cloudy")) {
-        return "☁️";
+        return "⛅️";
     } else if (skyCondition.includes("fog") || skyCondition.includes("mist")) {
         return "🌫️";
     } else if (skyCondition.includes("rain") || skyCondition.includes("drizzle")) {
