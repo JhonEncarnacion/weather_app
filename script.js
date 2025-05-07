@@ -53,7 +53,7 @@ const weeklyForecastVariablesCollection = [wfSymbol, wfDay, wfSkyCondition, wfPr
 const weatherConditionsVariablesCollection = [windNumber, windArrow, humidityNumber, uviNumber, pressureNumber, sunriseNumber, sunsetNumber]
 
 // Weather API variables
-const WEATHER_API_KEY = "8ec451d5bddd41ba9eb21038252004";
+const WEATHER_API_KEY = "44a24990f7a54753a8a162237250705";
 const WEATHER_API_URL = "https://api.weatherapi.com/v1/forecast.json";
 
 // Shows the weather of the user's current location on load
